@@ -12,7 +12,7 @@ import frqi
 
 imageNames = ["Ref_Tokyo_grayscale.jpg", "Tokyo_grayscale.jpg", "Sapporo_grayscale.jpg"]
 imgnum1 = 0
-imgnum2 = 1
+imgnum2 = 2
 
 img1 = Image.open(imageNames[imgnum1]).convert('LA')
 img2 = Image.open(imageNames[imgnum2]).convert('LA')
@@ -79,11 +79,11 @@ for i in range(1, len(original)):
 # encode ref image
 for i in range(len(img1)):
         if img1[i] != 0:
-                frqi.c10mary(qc, 2 * img1[i], format(i, '010b'), ref[0], anc[0], [ref[j] for j in range(1,len(ref))])
+                frqi.c10ry(qc, 2 * img1[i], format(i, '010b'), ref[0], anc[0], [ref[j] for j in range(1,len(ref))])
 
 # encode original image
 for i in range(len(img2)):
         if img2[i] != 0:
-                frqi.c10mary(qc, 2 * img2[i], format(i, '010b'), original[0], anc[0], [original[j] for j in range(1,len(original))])
+                frqi.c10ry(qc, 2 * img2[i], format(i, '010b'), original[0], anc[0], [original[j] for j in range(1,len(original))])
 
 print(swap_12(qc, targetQubit, ref, original, c))
