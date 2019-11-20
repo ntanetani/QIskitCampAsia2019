@@ -54,16 +54,14 @@ for i in range(1, len(img)):
 # encode ref image
 for i in range(len(image1)):
         if image1[i] != 0:
-                frqi.c10ry(qc, 2 * image1[i], format(i, '010b'), img[0], anc[0], [img[j] for j in range(1,len(img))])
+                frqi.c10ry(qc, 2 * image1[i], format(i, '010b'), img[0], anc2[0], [img[j] for j in range(1,len(img))])
 
-qc = qed.quantum_edge_detection(qc)
-
-qc.measure(range(12),range(12))
-
-backend_sim = Aer.get_backend('qasm_simulator')
-#print(qc.depth())
-numOfShots = 1024000
-result = execute(qc, provider.get_backend('ibmq_qasm_simulator'), shots=numOfShots).result()
+qed.quantum_edge_detection(qc)
+qc.measure(anc, c[0])
+qc.measure(img, c[1:12])
+print(qc.depth())
+numOfShots = 8192
+result = execute(qc, provider.get_backend('ibmq_qasm_simulator'), shots=numOfShots, backend_options={"fusion_enable":True}).result()
 #circuit_drawer(qc).show()
 #plot_histogram(result.get_counts(qc))
 
@@ -89,4 +87,5 @@ genimg = genimg.astype('int')
 genimg = genimg.reshape((32,32))
 
 plt.imshow(genimg, cmap='gray', vmin=0, vmax=255)
+plt.savefig('gen_'+str(img_num)+'.png')
 plt.show()

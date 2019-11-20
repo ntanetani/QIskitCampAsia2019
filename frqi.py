@@ -52,7 +52,6 @@ def rcccx(circ, t, c0, c1, c2):
         circ.tdg(t)
         circ.h(t)
 
-
 def ccry(circ, angle, t, c0, c1):
         circ.cu3(angle/2, 0, 0, c1, t)
         circ.cx(c1, c0)
@@ -222,14 +221,14 @@ if __name__ == '__main__':
         # apply c10Ry gates (representing color data)
         for i in range(len(x_train[img_num])):
                 if x_train[img_num][i] != 0:
-                        c10mary(qc, 2 * x_train[img_num][i], format(i, '010b'), 0, 1, [i for i in range(2,12)])
+                        c10ry(qc, 2 * x_train[img_num][i], format(i, '010b'), 0, 1, [i for i in range(2,12)])
 
 
         qc.measure(range(qubit),range(qubit))
 
         backend_sim = Aer.get_backend('qasm_simulator')
         #print(qc.depth())
-        numOfShots = 1024000
+        numOfShots = 10240
         result = execute(qc, backend_sim, shots=numOfShots).result()
         #circuit_drawer(qc).show()
         #plot_histogram(result.get_counts(qc))
